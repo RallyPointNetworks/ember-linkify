@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { urlRegex , shortenUrl } from 'ember-linkify/utils/url-regex';
+import { emailRegex, urlRegex , shortenUrl } from 'ember-linkify/utils/url-regex';
 
 const ALLOWED_ATTRIBUTE_NAMES = [ 'rel', 'class' ];
 
@@ -23,6 +23,10 @@ export function linkify( params, options ) {
     }
 
     return ` <a href="${url}" target="${windowTarget}"${sharedAttributes}>${displayText}</a> `;
+  }).replace(emailRegex(), function (s) {
+    let email = s.trim();
+
+    return ` <a href="mailto:${email}">${email}</a> `;
   });
 
   return Ember.String.htmlSafe(textToLinkify);
